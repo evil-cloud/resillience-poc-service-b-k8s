@@ -50,7 +50,7 @@ livenessProbe:
 
 readinessProbe:
   httpGet:
-    path: /healtch
+    path: /health
     port: http
 
 autoscaling:
