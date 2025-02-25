@@ -4,6 +4,7 @@ metadata:
   name: {{ include "service-b.fullname" . }}
   labels:
     {{- include "service-b.labels" . | nindent 4 }}
+    {{- include "service-b.istioLabels" . | nindent 4 }}
 spec:
   strategy:
     type: RollingUpdate
@@ -22,6 +23,7 @@ spec:
         {{- toYaml .Values.podAnnotations | nindent 8 }}
       labels:
         {{- include "service-b.labels" . | nindent 8 }}
+        {{- include "service-b.istioLabels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ include "service-b.serviceAccountName" . }}
       securityContext:
@@ -42,3 +44,4 @@ spec:
             {{- toYaml .Values.readinessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+

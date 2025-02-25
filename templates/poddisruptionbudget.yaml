@@ -9,3 +9,4 @@ spec:
     matchLabels:
       {{- include "service-b.selectorLabels" . | nindent 6 }}
 {{- end }}
+
