@@ -6,6 +6,8 @@ image:
   pullPolicy: IfNotPresent
   tag: 73d4342d
 
+version: v1
+
 serviceAccount:
   create: true
   automount: true
