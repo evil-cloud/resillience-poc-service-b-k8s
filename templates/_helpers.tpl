@@ -1,41 +1,44 @@
 {{/*
-Expand the name of the chart.
+Nombre base para los recursos.
 */}}
-{{- define "service-b.name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- define "rollout-k8s.name" -}}
+{{- if .Values.nameOverride }}
+  {{- .Values.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+  {{- .Chart.Name | trunc 63 | trimSuffix "-" }}
+{{- end }}
 {{- end }}
 
 {{/*
-Create a default fully qualified app name.
-We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
-If release name contains chart name it will be used as a full name.
+Nombre completo del recurso.
 */}}
-{{- define "service-b.fullname" -}}
+{{- define "rollout-k8s.fullname" -}}
 {{- if .Values.fullnameOverride }}
-{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
+  {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- $name := default .Chart.Name .Values.nameOverride }}
-{{- if contains $name .Release.Name }}
-{{- .Release.Name | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+  {{- $name := include "rollout-k8s.name" . }}
+  {{- if contains .Release.Name $name }}
+    {{- .Release.Name | trunc 63 | trimSuffix "-" }}
+  {{- else }}
+    {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+  {{- end }}
 {{- end }}
 {{- end }}
-{{- end }}
+
 
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "service-b.chart" -}}
+{{- define "rollout-k8s.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "service-b.labels" -}}
-helm.sh/chart: {{ include "service-b.chart" . }}
-{{ include "service-b.selectorLabels" . }}
+{{- define "rollout-k8s.labels" -}}
+helm.sh/chart: {{ include "rollout-k8s.chart" . }}
+{{ include "rollout-k8s.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -43,28 +46,21 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
-Istio-specific labels (Only for Deployment, Service, and ServiceAccount)
-*/}}
-{{- define "service-b.istioLabels" -}}
-app: {{ include "service-b.fullname" . }}
-version: {{ .Values.version | default .Chart.AppVersion }}
-{{- end }}
-
-{{/*
 Selector labels
 */}}
-{{- define "service-b.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "service-b.name" . }}
+{{- define "rollout-k8s.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "rollout-k8s.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "service-b.serviceAccountName" -}}
+{{- define "rollout-k8s.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "service-b.fullname" .) .Values.serviceAccount.name }}
+  {{- default (include "rollout-k8s.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
-{{- default "default" .Values.serviceAccount.name }}
+  {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
