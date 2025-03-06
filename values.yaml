@@ -1,7 +1,7 @@
 nameOverride: python-service-b
 fullnameOverride: python-service-b
 image:
-  repository:  d4rkghost47/python-circuit-svc-1
+  repository:  d4rkghost47/python-circuit-svc-2
   pullPolicy: IfNotPresent
   tag: c4c2c4cb
 version: v1
@@ -73,7 +73,7 @@ analysisTemplates:
     failure: result < 0.90
   query: ""
 rollout:
-  replicas: 10
+  replicas: 3
   strategy:
     steps:
     - setWeight: 10
