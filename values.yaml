@@ -3,7 +3,7 @@ fullnameOverride: python-service-b
 image:
   repository: d4rkghost47/python-circuit-svc-2
   pullPolicy: IfNotPresent
-  tag: latest
+  tag: ac4a8250
 version: v1
 serviceAccount:
   create: true
