@@ -1,9 +1,9 @@
 nameOverride: python-service-b
 fullnameOverride: python-service-b
 image:
-  repository:  d4rkghost47/python-circuit-svc-2
+  repository: d4rkghost47/python-circuit-svc-2
   pullPolicy: IfNotPresent
-  tag: c4c2c4cb
+  tag: latest
 version: v1
 serviceAccount:
   create: true
@@ -113,4 +113,3 @@ rollout:
         enabled: true
         templateName: success-rate-analysis
         startingStep: 5
-
